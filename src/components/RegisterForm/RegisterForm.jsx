@@ -1,16 +1,19 @@
 import { Formik } from "formik";
-import { object, string } from 'yup';
+import { object, string, ref } from 'yup';
 import { useDispatch } from 'react-redux'
+import { register } from "../../redux/operations";
 
-import { login } from "../../redux/operations";
-import { FormLogin, Label, Input, Button, Error, Title, Text, Link } from "./LoginForm.styled";
+import { FormLogin, Label, Input, Button, Error, Title, Text, Link } from "./RegisterForm.styled";
 
 const initialValues = {
     email: '',
-    password: ''
+    password: '',
+    confirmPassword: ''
 }
 
-const loginFormSchema = object().shape({
+
+
+const registerFormSchema = object().shape({
     email: string()
         .email('Invalid email address')
         .required('Email is required'),
@@ -18,23 +21,26 @@ const loginFormSchema = object().shape({
         .min(7, 'Password must be at least 7 characters')
         .max(32, 'Password must be at most 32 characters')
         .required('Password is required'),
+     confirmPassword: string()
+        .required("Please confirm your password")
+        .oneOf([ref("password")], "Passwords do not match"),
 })
 
-const LoginForm = () => {
+const RegisterForm = () => {
     const dispatch = useDispatch();
 
     const handleSubmit = (values, actions) => {
         const { resetForm } = actions;
-        const { error } = dispatch(login(values));
+        const { error } = dispatch(register(values));
         if (!error) {
             resetForm();
         }
     }
 
     return (
-        <Formik initialValues={initialValues} validationSchema={loginFormSchema} onSubmit={handleSubmit}>
+        <Formik initialValues={initialValues} validationSchema={registerFormSchema} onSubmit={handleSubmit}>
             <FormLogin autoComplete="off">
-                <Title>Login</Title>
+                <Title>Register</Title>
                 <Label htmlFor="login">
                     Email
                     <Input type='text' name='email' />
@@ -45,11 +51,16 @@ const LoginForm = () => {
                     <Input type='password' name='password' />
                     <Error name="password" component="div" />
                 </Label>
-                <Button type="submit">Sign In</Button>
-                <Text>Don't have an account? <Link to="/register">Register</Link></Text>
+                  <Label htmlFor="confirmPassword">
+                    Confirm Password
+                    <Input type='password' name='confirmPassword' />
+                    <Error name="confirmPassword" component="div" />
+                </Label>
+                <Button type="submit">Register</Button>
+                <Text>Already have an account? <Link to="/">Login</Link></Text>
             </FormLogin>
         </Formik>
     )
 }
 
-export default LoginForm;
+export default RegisterForm;
