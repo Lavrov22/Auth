@@ -1,15 +1,16 @@
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { logOut } from "../../redux/operations";
+import { Button, Wrapper, Text } from "./User.styled";
 
 const User = () => {
 
     const dispatch = useDispatch();
-    
+    const user = useSelector(state => state.user);
     return (
-        <>
-            <div>User</div>
-            <button type="button" onClick={() => dispatch(logOut())}>log out</button>
-        </>
+        <Wrapper>
+            <Text>{user.email}</Text>
+            <Button type="button" onClick={() => dispatch(logOut())}>log out</Button>
+        </Wrapper>
     )
 }
 

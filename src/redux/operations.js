@@ -1,6 +1,8 @@
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut  } from "firebase/auth";
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { app } from "../firebase/firebaseConfig";
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
+
 
 const auth = getAuth(app);
 
@@ -9,6 +11,7 @@ export const register = createAsyncThunk(
     async (credentials, thunkAPI) => {
         try {
             const res = await createUserWithEmailAndPassword(auth, credentials.email, credentials.password);
+            Notify.success('Register Successfull');
             return {
                 email: res.user.email,
                 id: res.user.uid,
@@ -16,6 +19,7 @@ export const register = createAsyncThunk(
             };
         } catch (error) {
             const errorMessage = error.message;
+            Notify.failure(errorMessage);
             return thunkAPI.rejectWithValue(errorMessage);
         }
     }
@@ -26,6 +30,7 @@ export const login = createAsyncThunk(
     async (credentials, thunkAPI) => {
         try {
             const res = await signInWithEmailAndPassword(auth, credentials.email, credentials.password);
+            Notify.success('Login Successfull');
             return{
                 email: res.user.email,
                 id: res.user.uid,
@@ -33,6 +38,7 @@ export const login = createAsyncThunk(
             };
         } catch (error) {
             const errorMessage = error.message;
+            Notify.failure(errorMessage);
             return thunkAPI.rejectWithValue(errorMessage);
         }
     }
@@ -43,8 +49,10 @@ export const logOut = createAsyncThunk(
     async (_, thunkAPI) => {
         try {
             await signOut(auth);
+            Notify.info('Are you leaving already?');
         } catch (error) {
             const errorMessage = error.message;
+            Notify.failure(errorMessage);
             return thunkAPI.rejectWithValue(errorMessage);
         }
     }

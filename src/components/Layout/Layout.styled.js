@@ -6,4 +6,5 @@ export const Main = styled.main`
     align-items: center;
     height: 100vh;
     width: 100vw;
+    background: linear-gradient(to bottom, #0033cc 0%, #ffff00 100%);
 `
