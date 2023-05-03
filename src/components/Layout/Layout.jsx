@@ -1,10 +1,15 @@
-import { Main } from "./Layout.styled";
+import { Main, FooterText, BackGround, Footer } from "./Layout.styled";
 
-const Layout = ({children}) => {
+const Layout = ({ children }) => {
     return (
-        <Main>
-            {children}
-        </Main>
+        <BackGround>
+            <Main>
+                {children}
+            </Main>
+            <Footer>
+                <FooterText>Lavrovs © 2023. All rights are reserved</FooterText>
+            </Footer>
+        </BackGround>
     )
 }
 

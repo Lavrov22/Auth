@@ -6,13 +6,20 @@ import RestrictedRoute from "../RestrictedRoute/RestrictedRoute"
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import Loader from "../Loader/Loader";
 
+
 const Login = lazy(() => import('../../pages/Login'));
 const Register = lazy(() => import('../../pages/Register'));
 const UserPage = lazy(() => import('../../pages/UserPage'));
+const HomePage = lazy(() => import('../../pages/HomePage'));
+
+
+
+
 
 function App() {
   const isRefreshing = useSelector(state => state.isRefreshing);
-  const isLoading = useSelector(state => state.isLoading)
+  const isLoading = useSelector(state => state.isLoading);
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(refreshing())
@@ -21,7 +28,8 @@ function App() {
   return isRefreshing ? <Loader /> : (
     <Suspense fallback={<Loader />}>
       <Routes>
-        <Route path="/" element={<Navigate to="/login" />} />
+        <Route path="/" element={ isLoading ? <Loader /> :
+            <RestrictedRoute component={HomePage} redirectTo='/user' />} />
         <Route path="/login" element={
           isLoading ? <Loader /> :
             <RestrictedRoute component={Login} redirectTo='/user' />
@@ -36,7 +44,7 @@ function App() {
       </Routes>
     </Suspense>
   )
-
+  
 }
 
 export default App;

@@ -57,7 +57,7 @@ const RegisterForm = () => {
                     <Error name="confirmPassword" component="div" />
                 </Label>
                 <Button type="submit">Register</Button>
-                <Text>Already have an account? <Link to="/">Login</Link></Text>
+                <Text>Already have an account? <Link to="/login">Login</Link></Text>
             </FormLogin>
         </Formik>
     )

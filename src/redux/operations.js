@@ -1,4 +1,12 @@
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut  } from "firebase/auth";
+import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    signOut,
+    GoogleAuthProvider,
+    signInWithRedirect,
+    onAuthStateChanged
+} from "firebase/auth";
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { app } from "../firebase/firebaseConfig";
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
@@ -58,11 +66,12 @@ export const logOut = createAsyncThunk(
     }
 )
 
+
 export const refreshing = createAsyncThunk(
     'auth/refreshing',
-    async (_, thunkAPI) => {
+    async (user, thunkAPI) => {
         try {
-            return new Promise(async (resolve, reject) => {
+         return new Promise(async (resolve, reject) => {
                 const unsubscribe = onAuthStateChanged(auth, (user) => {
                     unsubscribe();
                     if (user) {
@@ -78,8 +87,7 @@ export const refreshing = createAsyncThunk(
                         });
                     }
                 })
-            });
-        
+            });     
         } catch (error) {
             const errorMessage = error.message;
             return thunkAPI.rejectWithValue(errorMessage);
@@ -87,3 +95,15 @@ export const refreshing = createAsyncThunk(
     }
 )
 
+export const googleSignIn = createAsyncThunk(
+    'auth/googleSignIn',
+    async (user, thunkAPI) => {
+        try {
+            const provider = new GoogleAuthProvider();
+            signInWithRedirect(auth, provider);
+        } catch (error) {
+            const errorMessage = error.message;
+            return thunkAPI.rejectWithValue(errorMessage);
+        }
+    }
+)
