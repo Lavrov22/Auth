@@ -7,4 +7,5 @@ This is a website with registration and login functionality, built with React, S
 » React JS  
 » Redux  
 » Styled-components  
-» Formik » Firebase  
+» Formik  
+» Firebase  
