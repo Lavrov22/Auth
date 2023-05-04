@@ -90,7 +90,7 @@ const authSlice = createSlice({
         id: action.payload.id
       };
       state.token = action.payload.token;
-      state.isLoggedIn = true;
+      // state.isLoggedIn = true;
       state.isRefreshing = false;
       state.error = null;
     })
