@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 
 export const BackGround = styled.div`
-    background: linear-gradient(to bottom, #0033cc 0%, #ffff00 100%);
     height: 100vh;
     width: 100vw;
     display: flex;

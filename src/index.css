@@ -16,7 +16,7 @@ body {
   font-family: 'Manrope', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #fdf7f2;
+  background: linear-gradient(to bottom, #0033cc 0%, #ffff00 100%);
 }
 
 code {
