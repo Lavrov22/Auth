@@ -97,10 +97,16 @@ export const refreshing = createAsyncThunk(
 
 export const googleSignIn = createAsyncThunk(
     'auth/googleSignIn',
-    async (user, thunkAPI) => {
+    async (_, thunkAPI) => {
         try {
             const provider = new GoogleAuthProvider();
-            signInWithRedirect(auth, provider);
+            const user = signInWithRedirect(auth, provider);
+            return {
+                email: user.email,
+                id: user.uid,
+                token: user.accessToken
+            }
+
         } catch (error) {
             const errorMessage = error.message;
             return thunkAPI.rejectWithValue(errorMessage);
